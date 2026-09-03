@@ -1,14 +1,13 @@
-# Étape 1 : Build du projet Maven
-FROM eclipse-temurin:17-jdk-alpine AS build
+# Étape 1 : Build du projet avec Maven et JDK 21
+FROM maven:3.9-eclipse-temurin-21-alpine AS build
 WORKDIR /app
 COPY . .
 
-# Donner les droits d'exécution au script mvnw
-RUN chmod +x ./mvnw
-RUN ./mvnw clean package -DskipTests
+# Compilation du projet Spring Boot
+RUN mvn clean package -DskipTests
 
-# Étape 2 : Exécution du JAR
-FROM eclipse-temurin:17-jre-alpine
+# Étape 2 : Image d'exécution légère (JRE 21)
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
