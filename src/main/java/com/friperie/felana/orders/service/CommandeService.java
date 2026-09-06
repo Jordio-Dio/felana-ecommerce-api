@@ -13,6 +13,7 @@ import com.friperie.felana.orders.dto.request.LigneCommandeRequest;
 import com.friperie.felana.orders.dto.request.OrderHistoryFilterRequest;
 import com.friperie.felana.orders.repository.CommandeRepository;
 import com.friperie.felana.orders.repository.CommandeSpecifications;
+import com.friperie.felana.orders.service.DailySalesService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,6 +34,7 @@ public class CommandeService {
     private final CommandeRepository commandeRepository;
     private final ClientService clientService;
     private final ArticleService articleService;
+    private final DailySalesService dailySalesService;
 
     public Page<Commande> findAll(Pageable pageable) {
         return commandeRepository.findAll(pageable);
@@ -131,6 +133,8 @@ public class CommandeService {
             for (LigneCommande ligne : commande.getLignes()) {
                 articleService.decrementerStock(ligne.getArticle().getId(), ligne.getQuantite());
             }
+
+            dailySalesService.ajouterVente(commande.getTotalAchat());
         } else if (neRestePlusPayee) {
             // Le statut change après avoir été payé (ex: annulation a posteriori) : on
             // restitue le stock.

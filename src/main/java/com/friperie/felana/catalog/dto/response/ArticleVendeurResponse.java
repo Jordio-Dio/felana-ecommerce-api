@@ -20,7 +20,8 @@ public record ArticleVendeurResponse(
         Integer quantiteStock,
         List<String> imageUrls,
         boolean actif,
-        CategorieResponse categorie
+        CategorieResponse categorie,
+        java.time.Instant createdAt
 ) {
     public static ArticleVendeurResponse from(Article article) {
         return new ArticleVendeurResponse(
@@ -30,9 +31,10 @@ public record ArticleVendeurResponse(
                 article.getDescription(),
                 article.getPrixVente(),
                 article.getQuantiteStock(),
-                article.getImageUrls(   ),
+                article.getImageUrls(),
                 article.isActif(),
-                CategorieResponse.from(article.getCategorie())
+                CategorieResponse.from(article.getCategorie()),
+                article.getCreatedAt()
         );
     }
 }

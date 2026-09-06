@@ -28,7 +28,8 @@ public record ArticleGerantResponse(
         List<String> imageUrls,
         boolean publieVitrine,
         boolean actif,
-        CategorieResponse categorie) {
+        CategorieResponse categorie,
+        java.time.Instant createdAt) {
     public static ArticleGerantResponse from(Article article) {
         return new ArticleGerantResponse(
                 article.getId(),
@@ -49,6 +50,7 @@ public record ArticleGerantResponse(
                 article.getImageUrls(),
                 article.isPublieVitrine(),
                 article.isActif(),
-                CategorieResponse.from(article.getCategorie()));
+                CategorieResponse.from(article.getCategorie()),
+                article.getCreatedAt());
     }
 }
