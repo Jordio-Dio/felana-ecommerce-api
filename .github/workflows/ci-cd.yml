@@ -1,0 +1,76 @@
+# Tests à chaque pull request ; sur main : tests, image Docker, puis déploiement.
+# L'image est construite ici et poussée sur GHCR : le VPS ne fait que la tirer.
+# Mode d'emploi : docs/DEPLOIEMENT.md
+name: CI/CD
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - run: mvn -B verify
+
+  image:
+    name: Image Docker
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # Hors de main (pull requests), l'image est seulement construite, pas publiée
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: |
+            ${{ env.IMAGE }}:sha-${{ github.sha }}
+            ${{ env.IMAGE }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: Déploiement
+    needs: image
+    # Sauté tant que le serveur n'est pas configuré (variable COOLIFY_APP_UUID vide)
+    if: github.ref == 'refs/heads/main' && vars.COOLIFY_APP_UUID != ''
+    runs-on: ubuntu-latest
+    # Un seul déploiement à la fois ; le suivant attend au lieu d'annuler
+    concurrency:
+      group: production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Déployer sur Coolify
+        run: scripts/deploy-coolify.sh
+        env:
+          COOLIFY_URL: ${{ vars.COOLIFY_URL }}
+          COOLIFY_APP_UUID: ${{ vars.COOLIFY_APP_UUID }}
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+          HEALTHCHECK_URL: ${{ vars.HEALTHCHECK_URL }}

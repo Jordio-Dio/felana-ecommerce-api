@@ -1,0 +1,10 @@
+.git
+.github
+.idea
+.vscode
+target
+docs
+*.md
+
+# Contient des identifiants de développement : ne doit jamais finir dans l'image
+src/main/resources/application-local.properties

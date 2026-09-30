@@ -68,6 +68,10 @@ public class SecurityConfig {
                                                                 "/swagger-ui.html")
                                                 .permitAll()
 
+                                                // Sonde de santé : interrogée par le serveur pendant le déploiement
+                                                .requestMatchers("/actuator/health", "/actuator/health/**")
+                                                .permitAll()
+
                                                 // 2. Auth généraux
                                                 .requestMatchers(
                                                                 "/auth/login",
