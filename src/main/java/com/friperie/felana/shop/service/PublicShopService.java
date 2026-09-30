@@ -63,9 +63,13 @@ public class PublicShopService {
      *                précédentes) - pas de commande partiellement enregistrée.
      */
     @Transactional
-    public PublicOrderResponse createOrder(PublicOrderRequest request) {
-        Client client = clientRepository.findByTelephone(request.telephone())
-                .orElseGet(() -> creerNouveauClient(request));
+    public PublicOrderResponse createOrder(PublicOrderRequest request, Client clientConnecte) {
+
+        Client client = clientConnecte != null
+            ? clientConnecte
+            : clientRepository.findByTelephone(request.telephone())
+                    .orElseGet(() -> creerNouveauClient(request));
+
 
         Commande commande = Commande.builder()
                 .reference(genererReference())
@@ -112,14 +116,16 @@ public class PublicShopService {
                 buildInstructions(request.modePaiement()));
     }
 
+    
     private Client creerNouveauClient(PublicOrderRequest request) {
-        Client client = Client.builder()
-                .nom(request.nomClient())
-                .telephone(request.telephone())
-                .adresse(request.adresseLivraison())
-                .build();
-        return clientRepository.save(client);
-    }
+    Client client = Client.builder()
+            .nom(request.nomClient())
+            .telephone(request.telephone())
+            .adresse(request.adresseLivraison())
+            .compteActif(false) // fiche créée sans compte de connexion
+            .build();
+    return clientRepository.save(client);
+}
 
     private String genererReference() {
         String prefix = "SHOP-" + Year.now().getValue() + "-";
