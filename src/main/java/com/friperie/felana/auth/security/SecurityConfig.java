@@ -95,8 +95,7 @@ public class SecurityConfig {
                                                 // 4. **ROUTES PUBLIQUES CLIENT - Login & Registration**
                                                 .requestMatchers(
                                                                 "/v1/public/client/register",
-                                                                "/v1/public/client/login"
-                                                )
+                                                                "/v1/public/client/login")
                                                 .permitAll()
 
                                                 // 5. Profil client - nécessite authentification avec rôle CLIENT
@@ -163,7 +162,12 @@ public class SecurityConfig {
                                 .setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:8080",
                                                 "http://localhost:5173", "https://hiba-creations.vercel.app"));
                 configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-                configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+                configuration.setAllowedHeaders(List.of("*"));
+
+                // Exposer les en-têtes de réponse au client
+                configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
+
+                // Autoriser les cookies/credentials
                 configuration.setAllowCredentials(true);
 
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
