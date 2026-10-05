@@ -48,7 +48,7 @@ public class Commande {
      * - il n'y pas de vendeur associé(ou impliqué) à la commande,
      * c'est le client qui l'a passée lui-même.
      */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "vendeur_id", nullable = true)
     private User vendeur;
 

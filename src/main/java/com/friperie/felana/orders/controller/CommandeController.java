@@ -93,6 +93,14 @@ public class CommandeController {
         return ResponseEntity.ok(CommandeResponse.from(commandeService.updateStatut(id, request.statut())));
     }
 
+    @PreAuthorize("hasAnyRole('GERANT','VENDEUR')")
+    @Operation(summary = "Supprimer une commande")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCommande(@PathVariable Long id) {
+        commandeService.deleteCommande(id);
+        return ResponseEntity.noContent().build();
+    }
+
     /**
      * Reçu/facture au format JSON structuré, prêt à être imprimé ou converti
      * en PDF côté frontend.

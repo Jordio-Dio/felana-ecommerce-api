@@ -59,6 +59,20 @@ public class SecurityConfig {
                 http
                                 .csrf(csrf -> csrf.disable())
                                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                                // --- AJOUT CE BLOC HEADER CSP ---
+                                .headers(headers -> headers
+                                                .contentSecurityPolicy(csp -> csp
+                                                                .policyDirectives(
+                                                                                "default-src 'self'; " +
+                                                                                                "script-src 'self' 'unsafe-inline' 'unsafe-eval'; "
+                                                                                                +
+                                                                                                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+                                                                                                +
+                                                                                                "font-src 'self' https://fonts.gstatic.com data:; "
+                                                                                                +
+                                                                                                "img-src 'self' data: blob: https://res.cloudinary.com https:; "
+                                                                                                +
+                                                                                                "connect-src 'self' http://localhost:8080 http://localhost:5173 ws://localhost:5173 https://api.cloudinary.com https://*.cloudinary.com https://felana-backend.onrender.com;")))
                                 .authorizeHttpRequests(auth -> auth
                                                 // 1. Swagger & Doc
                                                 .requestMatchers(

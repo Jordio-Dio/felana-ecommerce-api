@@ -136,15 +136,28 @@ public class CommandeService {
 
             dailySalesService.ajouterVente(commande.getTotalAchat());
         } else if (neRestePlusPayee) {
-            // Le statut change après avoir été payé (ex: annulation a posteriori) : on
-            // restitue le stock.
-            for (LigneCommande ligne : commande.getLignes()) {
-                articleService.restaurerStock(ligne.getArticle().getId(), ligne.getQuantite());
-            }
+            restaurerStockCommande(commande);
         }
 
         commande.setStatut(nouveauStatut);
         return commandeRepository.save(commande);
+    }
+
+    @Transactional
+    public void deleteCommande(Long id) {
+        Commande commande = findEntityById(id);
+
+        if (commande.getStatut() == StatutCommande.PAYEE) {
+            restaurerStockCommande(commande);
+        }
+
+        commandeRepository.delete(commande);
+    }
+
+    private void restaurerStockCommande(Commande commande) {
+        for (LigneCommande ligne : commande.getLignes()) {
+            articleService.restaurerStock(ligne.getArticle().getId(), ligne.getQuantite());
+        }
     }
 
     /** Référence lisible du type "CMD-2026-000001", incrémentée par année. */
