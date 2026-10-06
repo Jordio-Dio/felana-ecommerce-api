@@ -72,7 +72,7 @@ public class SecurityConfig {
                                                                                                 +
                                                                                                 "img-src 'self' data: blob: https://res.cloudinary.com https:; "
                                                                                                 +
-                                                                                                "connect-src 'self' http://localhost:8080 http://localhost:5173 ws://localhost:5173 https://api.cloudinary.com https://*.cloudinary.com https://felana-backend.onrender.com;")))
+                                                                                                "connect-src 'self' http://localhost:8080 http://localhost:5173 ws://localhost:5173 https://api.cloudinary.com https://*.cloudinary.com https://felana-backend.onrender.com https://api-felana.wanna-group.com;")))
                                 .authorizeHttpRequests(auth -> auth
                                                 // 1. Swagger & Doc
                                                 .requestMatchers(
