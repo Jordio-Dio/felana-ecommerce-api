@@ -18,10 +18,10 @@ public record InvoiceResponse(
 
         String magasinNom,
         String magasinAdresse,
-        String magasinTelephone,
 
         String magasinEmail,
         String magasinWhatsapp,
+        String magasinTelephone,
         String magasinNifStat,
 
         String mvolaNumero,
