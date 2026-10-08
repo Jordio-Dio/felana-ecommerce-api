@@ -20,6 +20,14 @@ public record InvoiceResponse(
         String magasinAdresse,
         String magasinTelephone,
 
+        String magasinEmail,
+        String magasinWhatsapp,
+        String magasinNifStat,
+
+        String mvolaNumero,
+        String airtelMoneyNumero,
+        String orangeMoneyNumero,
+
         String clientNomComplet,
         String clientTelephone,
         String clientEmail,
@@ -33,6 +41,8 @@ public record InvoiceResponse(
         BigDecimal tauxTaxe,
         BigDecimal montantTaxe,
         BigDecimal total,
+
+        String modePaiement,
 
         StatutCommande statutPaiement
 ) {

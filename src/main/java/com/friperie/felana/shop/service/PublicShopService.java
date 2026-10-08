@@ -136,9 +136,9 @@ public class PublicShopService {
     private String buildInstructions(com.friperie.felana.shop.domain.ModePaiement mode) {
         return switch (mode) {
             case MVOLA_MANUEL ->
-                "Effectuez votre transfert Mvola au 034 XX XXX XX, puis attendez la confirmation par téléphone.";
+                "Effectuez votre transfert Mvola au 038 17 656 56, puis attendez la confirmation par téléphone (numéro ci-dessous).";
             case ORANGE_MONEY_MANUEL ->
-                "Effectuez votre transfert Orange Money au 032 XX XXX XX, puis attendez la confirmation par téléphone.";
+                "Effectuez votre transfert Orange Money au 032 98 114 55, puis attendez la confirmation par téléphone (numéro ci-dessous).";
             case ESPECES -> "Le paiement en espèces se fera à la livraison ou au retrait.";
         };
     }

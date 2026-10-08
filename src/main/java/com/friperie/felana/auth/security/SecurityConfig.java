@@ -103,7 +103,8 @@ public class SecurityConfig {
                                                                 "/v1/public/articles/**",
                                                                 "/v1/public/client/register",
                                                                 "/v1/public/client/login",
-                                                                "/v1/public/orders")
+                                                                "/v1/public/orders",
+                                                                "/v1/public/shop-info")
                                                 .permitAll()
 
                                                 // 4. **ROUTES PUBLIQUES CLIENT - Login & Registration**

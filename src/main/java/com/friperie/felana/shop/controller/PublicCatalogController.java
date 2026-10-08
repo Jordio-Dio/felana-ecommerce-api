@@ -1,5 +1,6 @@
 package com.friperie.felana.shop.controller;
 
+import com.friperie.felana.common.config.MagasinProperties;
 import com.friperie.felana.orders.domain.Client;
 import com.friperie.felana.orders.dto.response.CommandeResponse;
 import com.friperie.felana.orders.repository.ClientRepository;
@@ -7,6 +8,7 @@ import com.friperie.felana.orders.service.CommandeService;
 import com.friperie.felana.shop.dto.ArticlePublicDTO;
 import com.friperie.felana.shop.dto.request.PublicOrderRequest;
 import com.friperie.felana.shop.dto.response.PublicOrderResponse;
+import com.friperie.felana.shop.dto.response.ShopInfoResponse;
 import com.friperie.felana.shop.service.PublicShopService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,6 +38,22 @@ public class PublicCatalogController {
     private final PublicShopService publicShopService;
     private final CommandeService commandeService;
     private final ClientRepository clientRepository;
+    private final MagasinProperties magasinProperties;
+
+    @Operation(summary = "Informations publiques de la boutique (contact, paiement)")
+    @GetMapping("/shop-info")
+    public ResponseEntity<ShopInfoResponse> shopInfo() {
+        return ResponseEntity.ok(new ShopInfoResponse(
+                magasinProperties.getNom(),
+                magasinProperties.getAdresse(),
+                magasinProperties.getTelephone(),
+                magasinProperties.getMvolaNumero(),
+                magasinProperties.getAirtelMoneyNumero(),
+                magasinProperties.getOrangeMoneyNumero(),
+                magasinProperties.getEmail(),
+                magasinProperties.getWhatsapp(),
+                magasinProperties.getNifStat()));
+    }
 
     @Operation(summary = "Liste paginée des articles actifs du catalogue public")
     @GetMapping("/articles")

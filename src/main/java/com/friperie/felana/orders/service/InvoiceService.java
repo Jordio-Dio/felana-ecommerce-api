@@ -44,6 +44,12 @@ public class InvoiceService {
                                 magasinProperties.getNom(),
                                 magasinProperties.getAdresse(),
                                 magasinProperties.getTelephone(),
+                                magasinProperties.getEmail(),
+                                magasinProperties.getWhatsapp(),
+                                magasinProperties.getNifStat(),
+                                magasinProperties.getMvolaNumero(),
+                                magasinProperties.getAirtelMoneyNumero(),
+                                magasinProperties.getOrangeMoneyNumero(),
                                 clientNomComplet,
                                 client.getTelephone(),
                                 client.getAdresse(),
@@ -54,6 +60,7 @@ public class InvoiceService {
                                 tauxTaxe,
                                 montantTaxe,
                                 total,
+                                commande.getModePaiement(),
                                 commande.getStatut());
         }
 }
