@@ -70,7 +70,10 @@ public class Commande {
      * Null pour les ventes internes classiques
      */
     private String modePaiement;
-    
+
+    @Column(length = 200)
+    private String zoneLivraison;
+
     /**
      * cascade = ALL : sauvegarder/supprimer une Commande sauvegarde/supprime
      * ses lignes automatiquement. orphanRemoval = true : si une ligne est

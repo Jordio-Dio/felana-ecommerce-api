@@ -44,6 +44,8 @@ public record InvoiceResponse(
 
         String modePaiement,
 
-        StatutCommande statutPaiement
+        StatutCommande statutPaiement,
+
+        String zoneLivraison
 ) {
 }

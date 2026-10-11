@@ -61,6 +61,7 @@ public class InvoiceService {
                                 montantTaxe,
                                 total,
                                 commande.getModePaiement(),
-                                commande.getStatut());
+                                commande.getStatut(),
+                                commande.getZoneLivraison());
         }
 }

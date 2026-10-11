@@ -22,6 +22,9 @@ public record PublicOrderRequest(
         @Size(max = 500)
         String adresseLivraison,
 
+        @Size(max = 200)
+        String zoneLivraison,
+
         @NotNull(message = "Le mode de paiement est obligatoire")
         ModePaiement modePaiement,
 

@@ -18,7 +18,9 @@ public record CommandeResponse(
         String vendeurNom,
         BigDecimal remise,
         BigDecimal totalAchat,
-        List<LigneCommandeResponse> lignes
+        List<LigneCommandeResponse> lignes,
+
+        String zoneLivraison
 ) {
     public static CommandeResponse from(Commande commande) {
         return new CommandeResponse(
@@ -30,7 +32,8 @@ public record CommandeResponse(
                 commande.getVendeur() != null ? commande.getVendeur().getName() : "Vente en ligne",
                 commande.getRemise(),
                 commande.getTotalAchat(),
-                commande.getLignes().stream().map(LigneCommandeResponse::from).toList()
+                commande.getLignes().stream().map(LigneCommandeResponse::from).toList(),
+                commande.getZoneLivraison()
         );
     }
 

@@ -77,6 +77,7 @@ public class PublicShopService {
                 .client(client)
                 .vendeur(null) // pas de vendeur pour une commande en ligne
                 .modePaiement(request.modePaiement().name())
+                .zoneLivraison(request.zoneLivraison())
                 .totalAchat(BigDecimal.ZERO)
                 .build();
 
