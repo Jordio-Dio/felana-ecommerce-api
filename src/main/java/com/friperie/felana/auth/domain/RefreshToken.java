@@ -45,6 +45,18 @@ public class RefreshToken {
     @Builder.Default
     private boolean revoked = false;
 
+    /**
+     * Date de la rotation, renseignée UNIQUEMENT quand la révocation vient d'un
+     * rafraîchissement. Elle sert d'ouverture de grâce : un client qui rejoue un
+     * token fraîchement tourné (onglet concurrent, restauration de session,
+     * réponse perdue à la fermeture de l'onglet) n'est pas déconnecté pour ça.
+     *
+     * Une révocation "sèche" (logout, changement de mot de passe, révocation par
+     * admin) laisse ce champ à null : elle reste immédiate et définitive.
+     */
+    @Column(name = "rotated_at")
+    private Instant rotatedAt;
+
     public boolean isExpired() {
         return expiryDate.isBefore(Instant.now());
     }
